@@ -1,0 +1,424 @@
+//
+// Core: Layout
+//
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body,
+.wrapper {
+  min-height: 100%;
+}
+
+.wrapper {
+  position: relative;
+
+  & .content-wrapper {
+    min-height: calc(100vh - #{$main-header-height} - #{$main-footer-height});
+  }
+
+  .layout-boxed & {
+    @include box-shadow(0 0 10 rgba($black, .3));
+
+    &,
+    &::before {
+      margin: 0 auto;
+      max-width: $boxed-layout-max-width;
+    }
+
+    & .main-sidebar {
+      left: inherit;
+    }
+  }
+
+  .layout-navbar-fixed.layout-fixed & {
+    .control-sidebar {
+      top: $main-header-height;
+    }
+    .sidebar {
+      margin-top: $main-header-height;
+    }
+  }
+
+  .layout-navbar-fixed.sidebar-collapse & {
+    .brand-link {
+      height: $main-header-height;
+      width: $sidebar-mini-width;
+    }
+  }
+
+  .layout-navbar-fixed & {
+    .control-sidebar {
+      top: 0;
+    }
+
+    a.anchor {
+      display: block;
+      position: relative;
+      top: calc((#{$main-header-height-inner} + #{$main-header-bottom-border-width} + (#{$main-header-link-padding-y} * 2)) / -1);
+    }
+
+    .main-sidebar:hover {
+      .brand-link {
+        transition: width $transition-speed $transition-fn;
+        width: $sidebar-width;
+      }
+    }
+
+    .brand-link {
+      overflow: hidden;
+      position: fixed;
+      top: 0;
+      transition: width $transition-speed $transition-fn;
+      width: $sidebar-width;
+      z-index: $zindex-main-header + 1;
+    }
+
+    // Sidebar variants brand-link fix
+    @each $name, $color in $theme-colors {
+      .sidebar-dark-#{$name} .brand-link {
+        background-color: $sidebar-dark-bg;
+      }
+
+      .sidebar-light-#{$name} .brand-link {
+        background-color: $sidebar-light-bg;
+      }
+    }
+
+    .content-wrapper {
+      margin-top: $main-header-height;
+    }
+
+    .main-header {
+      left: 0;
+      position: fixed;
+      right: 0;
+      top: 0;
+      z-index: $zindex-main-header - 1;
+    }
+  }
+
+  .layout-navbar-not-fixed & {
+    .brand-link {
+      position: static;
+    }
+
+    .sidebar,
+    .content-wrapper {
+      margin-top: 0;
+    }
+
+    .main-header {
+      position: static;
+    }
+  }
+
+  @each $breakpoint in map-keys($grid-breakpoints) {
+    @include media-breakpoint-up($breakpoint) {
+      $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+      .layout#{$infix}-navbar-fixed.layout-fixed & {
+        .control-sidebar {
+          top: $main-header-height;
+        }
+        .sidebar {
+          margin-top: $main-header-height;
+        }
+      }
+
+      .layout#{$infix}-navbar-fixed & {
+        .control-sidebar {
+          top: 0;
+        }
+
+        a.anchor {
+          display: block;
+          position: relative;
+          top: calc((#{$main-header-height-inner} + #{$main-header-bottom-border-width} + (#{$main-header-link-padding-y} * 2)) / -1);
+        }
+
+        &.sidebar-collapse {
+          .brand-link {
+            height: $main-header-height;
+            transition: width $transition-speed $transition-fn;
+            width: $sidebar-mini-width;
+          }
+
+          .main-sidebar:hover {
+            .brand-link {
+              transition: width $transition-speed $transition-fn;
+              width: $sidebar-width;
+            }
+          }
+        }
+
+        .brand-link {
+          overflow: hidden;
+          position: fixed;
+          top: 0;
+          transition: width $transition-speed $transition-fn;
+          width: $sidebar-width;
+          z-index: $zindex-main-header + 1;
+        }
+
+        // Sidebar variants brand-link fix
+        @each $name, $color in $theme-colors {
+          .sidebar-dark-#{$name} .brand-link {
+            background-color: $sidebar-dark-bg;
+          }
+
+          .sidebar-light-#{$name} .brand-link {
+            background-color: $sidebar-light-bg;
+          }
+        }
+
+        .content-wrapper {
+          margin-top: $main-header-height;
+        }
+
+        .main-header {
+          left: 0;
+          position: fixed;
+          right: 0;
+          top: 0;
+          z-index: $zindex-main-sidebar - 1;
+        }
+      }
+
+      .layout#{$infix}-navbar-not-fixed & {
+        .brand-link {
+          position: static;
+        }
+
+        .sidebar,
+        .content-wrapper {
+          margin-top: 0;
+        }
+
+        .main-header {
+          position: static;
+        }
+      }
+
+    }
+  }
+
+  .layout-footer-fixed & {
+    .control-sidebar {
+      bottom: 0;
+    }
+  }
+
+  .layout-footer-fixed & {
+    .main-footer {
+      bottom: 0;
+      left: 0;
+      position: fixed;
+      right: 0;
+      z-index: $zindex-main-footer;
+    }
+  }
+
+  .layout-footer-not-fixed & {
+    .main-footer {
+      position: static;
+    }
+
+    .content-wrapper {
+      margin-bottom: 0;
+    }
+  }
+
+  @each $breakpoint in map-keys($grid-breakpoints) {
+    @include media-breakpoint-up($breakpoint) {
+      $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+      .layout#{$infix}-footer-fixed & {
+        .control-sidebar {
+          bottom: 0;
+        }
+      }
+
+      .layout#{$infix}-footer-fixed & {
+        .main-footer {
+          bottom: 0;
+          left: 0;
+          position: fixed;
+          right: 0;
+          z-index: $zindex-main-footer;
+        }
+
+        .content-wrapper {
+          margin-bottom: $main-footer-height;
+        }
+      }
+
+      .layout#{$infix}-footer-not-fixed & {
+        .main-footer {
+          position: static;
+        }
+      }
+    }
+  }
+
+  .layout-top-nav & {
+    margin-left: 0;
+
+
+    & .main-sidebar {
+      bottom: inherit;
+      height: inherit;
+    }
+
+    .brand-image {
+      height: 33px;
+    }
+
+    & .main-sidebar {
+      display: none;
+    }
+
+    & .content-wrapper,
+    & .main-header,
+    & .main-footer {
+      margin-left: 0;
+    }
+  }
+}
+
+.content-wrapper,
+.main-footer,
+.main-header {
+  @include media-breakpoint-up(sm) {
+    @include transition(margin-left $transition-speed $transition-fn);
+
+    margin-left: $sidebar-width;
+    z-index: 3000;
+
+    .sidebar-collapse & {
+      margin-left: 0;
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    &,
+    &::before {
+      margin-left: 0;
+    }
+  }
+}
+
+.content-wrapper {
+  background: $main-bg;
+
+  > .content {
+    padding: $content-padding-y $content-padding-x;
+  }
+}
+
+.main-sidebar {
+  &,
+  &::before {
+    $local-sidebar-transition: margin-left $transition-speed $transition-fn, width $transition-speed $transition-fn;
+    @include transition($local-sidebar-transition);
+    width: $sidebar-width;
+  }
+
+  .sidebar-collapse & {
+    &,
+    &::before {
+      margin-left: -$sidebar-width;
+    }
+
+    .nav-sidebar.nav-child-indent .nav-treeview {
+      padding: 0;
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    &,
+    &::before {
+      box-shadow: none !important;
+      margin-left: -$sidebar-width;
+    }
+
+    .sidebar-open & {
+      &,
+      &::before {
+        margin-left: 0;
+      }
+    }
+  }
+}
+
+:not(.layout-fixed) {
+  .main-sidebar {
+    height: inherit;
+    min-height: 100%;
+    position: absolute;
+    top: 0;
+  }
+}
+
+.layout-fixed {
+  .brand-link {
+    width: $sidebar-width;
+  }
+
+  .main-sidebar {
+    bottom: 0;
+    float: none;
+    height: 100vh;
+    left: 0;
+    position: fixed;
+    top: 0;
+  }
+
+  .control-sidebar {
+    bottom: 0;
+    float: none;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+
+    .control-sidebar-content {
+      height: calc(100vh - #{$main-header-height});
+    }
+  }
+}
+
+.main-footer {
+  background: $main-footer-bg;
+  border-top: $main-footer-border-top;
+  color: lighten($gray-700, 25%);
+  padding: $main-footer-padding;
+}
+
+.content-header {
+  padding: 15px $content-padding-x;
+
+  h1 {
+    font-size: 1.8rem;
+    margin: 0;
+  }
+
+  .breadcrumb {
+    background: transparent;
+    line-height: 1.8rem;
+    margin-bottom: 0;
+    padding: 0;
+  }
+}
+
+.hold-transition {
+  .content-wrapper,
+  .main-header,
+  .main-sidebar,
+  .main-sidebar *,
+  .control-sidebar,
+  .control-sidebar *,
+  .main-footer {
+    transition: none !important;
+  }
+}

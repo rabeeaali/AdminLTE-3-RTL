@@ -1,0 +1,438 @@
+//
+// Component: Main Sidebar
+//
+
+.main-sidebar {
+  height: 100vh;
+  overflow-y: hidden;
+  z-index: $zindex-main-sidebar;
+}
+
+.sidebar {
+  height: calc(100% - 4rem);
+  overflow-y: auto;
+  padding-bottom: $sidebar-padding-y;
+  padding-left: $sidebar-padding-x;
+  padding-right: $sidebar-padding-x;
+  padding-top: $sidebar-padding-y;
+}
+
+// Sidebar user panel
+.user-panel {
+  position: relative;
+
+  [class*='sidebar-dark'] & {
+    border-bottom: 1px solid lighten($dark, 12%);
+  }
+
+  [class*='sidebar-light'] & {
+    border-bottom: 1px solid $gray-300;
+  }
+
+  &,
+  .info {
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .image {
+    display: inline-block;
+    padding-left: $nav-link-padding-x - .2;
+  }
+
+  img {
+    height: auto;
+    width: $sidebar-user-image-width;
+  }
+
+  .info {
+    display: inline-block;
+    padding: 5px 5px 5px 10px;
+  }
+
+  .status,
+  .dropdown-menu {
+    font-size: $font-size-sm;
+  }
+}
+
+// Sidebar navigation menu
+.nav-sidebar {
+  // All levels
+  .nav-item {
+    > .nav-link {
+      margin-bottom: .2rem;
+
+      .right {
+        @include transition(transform $transition-fn $transition-speed);
+      }
+    }
+  }
+
+  .nav-link > .right,
+  .nav-link > p > .right {
+    position: absolute;
+    right: 1rem;
+    top: .7rem;
+
+    i,
+    span {
+      margin-left: .5rem;
+    }
+
+    &:nth-child(2) {
+      right: 2.2rem;
+    }
+  }
+
+  .menu-open {
+    > .nav-treeview {
+      display: block;
+    }
+
+    > .nav-link {
+      i.right {
+        @include rotate(-90deg);
+      }
+    }
+  }
+
+  // First Level
+  > .nav-item {
+    margin-bottom: 0;
+
+    .nav-icon {
+      font-size: 1.2rem;
+      margin-right: .2rem;
+      text-align: center;
+      width: $sidebar-nav-icon-width;
+
+      &.fa,
+      &.fas,
+      &.far,
+      &.fab,
+      &.glyphicon,
+      &.ion {
+        font-size: 1.1rem;
+      }
+    }
+
+    .float-right {
+      margin-top: 3px;
+    }
+  }
+
+  // Tree view menu
+  .nav-treeview {
+    display: none;
+    list-style: none;
+    padding: 0;
+
+    > .nav-item {
+      > .nav-link {
+        > .nav-icon {
+          width: $sidebar-nav-icon-width;
+        }
+      }
+    }
+  }
+
+  &.nav-child-indent {
+    .nav-treeview {
+      transition: padding $transition-speed $transition-fn;
+      padding-left: 1rem;
+    }
+  }
+
+  .nav-header {
+    font-size: .9rem;
+    padding: $nav-link-padding-y;
+
+    &:not(:first-of-type) {
+      padding: 1.7rem 1rem .5rem;
+    }
+  }
+
+  .nav-link p {
+    display: inline-block;
+    margin: 0;
+  }
+}
+
+#sidebar-overlay {
+  @include media-breakpoint-down(md) {
+    .sidebar-open & {
+      display: block;
+    }
+  }
+
+  background-color: rgba($black, 0.1);
+  bottom: 0;
+  display: none;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: $zindex-main-sidebar - 1;
+}
+
+.sidebar-mini-md {
+  &.sidebar-open {
+    #sidebar-overlay {
+      @include media-breakpoint-up(sm) {
+        display: none;
+      }
+      @include media-breakpoint-down(sm) {
+        display: block;
+      }
+    }
+  }
+}
+
+[class*='sidebar-light-'] {
+  // Sidebar background color
+  background-color: $sidebar-light-bg;
+
+  // User Panel (resides in the sidebar)
+  .user-panel {
+    a:hover {
+      color: $sidebar-light-hover-color;
+    }
+
+    .status {
+      background: $sidebar-light-hover-bg;
+      color: $sidebar-light-color;
+
+      &:hover,
+      &:focus,
+      &:active {
+        background: darken($sidebar-light-hover-bg, 3%);
+        color: $sidebar-light-hover-color;
+      }
+    }
+
+    .dropdown-menu {
+      @include box-shadow(0 2px 4px rgba(0, 0, 0, .4));
+      border-color: darken($sidebar-light-hover-bg, 5%);
+    }
+
+    .dropdown-item {
+      color: $body-color;
+    }
+  }
+
+  // Sidebar Menu. First level links
+  .nav-sidebar > .nav-item {
+    // links
+    > .nav-link {
+      // border-left: 3px solid transparent;
+      &:active,
+      &:focus {
+        color: $sidebar-light-color;
+      }
+    }
+
+    // Hover and active states
+    &.menu-open > .nav-link,
+    &:hover > .nav-link {
+      background-color: $sidebar-light-hover-bg;
+      color: $sidebar-light-hover-color;
+    }
+
+    > .nav-link.active {
+      color: $sidebar-light-active-color;
+
+      @if $enable-shadows {
+        @extend .elevation-1;
+      }
+    }
+
+    // First Level Submenu
+    > .nav-treeview {
+      background: $sidebar-light-submenu-bg;
+    }
+  }
+
+  // Section Heading
+  .nav-header {
+    background: inherit;
+    color: darken($sidebar-light-color, 5%);
+  }
+
+  // All links within the sidebar menu
+  .sidebar {
+    a {
+      color: $sidebar-light-color;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  // All submenus
+  .nav-treeview {
+    > .nav-item {
+      > .nav-link {
+        color: $sidebar-light-submenu-color;
+      }
+
+      > .nav-link.active {
+        &,
+        &:hover {
+          background-color: $sidebar-light-submenu-active-bg;
+          color: $sidebar-light-submenu-active-color;
+        }
+      }
+
+      > .nav-link:hover {
+        background-color: $sidebar-light-submenu-hover-bg;
+      }
+    }
+  }
+}
+
+[class*='sidebar-dark-'] {
+  // Sidebar background color
+  background-color: $sidebar-dark-bg;
+
+  // User Panel (resides in the sidebar)
+  .user-panel {
+    a:hover {
+      color: $sidebar-dark-hover-color;
+    }
+
+    .status {
+      background: $sidebar-dark-hover-bg;
+      color: $sidebar-dark-color;
+
+      &:hover,
+      &:focus,
+      &:active {
+        background: darken($sidebar-dark-hover-bg, 3%);
+        color: $sidebar-dark-hover-color;
+      }
+    }
+
+    .dropdown-menu {
+      @include box-shadow(0 2px 4px rgba(0, 0, 0, .4));
+      border-color: darken($sidebar-dark-hover-bg, 5%);
+    }
+
+    .dropdown-item {
+      color: $body-color;
+    }
+  }
+
+  // Sidebar Menu. First level links
+  .nav-sidebar > .nav-item {
+    // links
+    > .nav-link {
+      // border-left: 3px solid transparent;
+      &:active {
+        color: $sidebar-dark-color;
+      }
+    }
+
+    // Hover and active states
+    &.menu-open > .nav-link,
+    &:hover > .nav-link,
+    & > .nav-link:focus  {
+      background-color: $sidebar-dark-hover-bg;
+      color: $sidebar-dark-hover-color;
+    }
+
+    > .nav-link.active {
+      color: $sidebar-dark-hover-color;
+
+      @if $enable-shadows {
+        @extend .elevation-1;
+      }
+    }
+
+    // First Level Submenu
+    > .nav-treeview {
+      background: $sidebar-dark-submenu-bg;
+    }
+  }
+
+  // Section Heading
+  .nav-header {
+    background: inherit; //darken($sidebar-dark-bg, 3%);
+    color: lighten($sidebar-dark-color, 5%);
+  }
+
+  // All links within the sidebar menu
+  .sidebar {
+    a {
+      color: $sidebar-dark-color;
+
+      &:hover,
+      &:focus {
+        text-decoration: none;
+      }
+    }
+  }
+
+  // All submenus
+  .nav-treeview {
+    > .nav-item {
+      > .nav-link {
+        color: $sidebar-dark-submenu-color;
+
+        &:hover,
+        &:focus {
+          background-color: $sidebar-dark-submenu-hover-bg;
+          color: $sidebar-dark-submenu-hover-color;
+        }
+      }
+
+      > .nav-link.active {
+        &,
+        &:hover,
+        &:focus {
+          background-color: $sidebar-dark-submenu-active-bg;
+          color: $sidebar-dark-submenu-active-color;
+        }
+      }
+    }
+  }
+}
+
+// Sidebar variants
+@each $name, $color in $theme-colors {
+  .sidebar-dark-#{$name},
+  .sidebar-light-#{$name} {
+    @include sidebar-color($color)
+  }
+}
+
+@each $name, $color in $colors {
+  .sidebar-dark-#{$name},
+  .sidebar-light-#{$name} {
+    @include sidebar-color($color)
+  }
+}
+
+
+// Nav Compact
+.nav-compact {
+  .nav-link,
+  .nav-header {
+    padding: ($nav-link-padding-y / 2) ($nav-link-padding-x / 2);
+  }
+
+  .nav-header:not(:first-of-type) {
+    padding: ($nav-link-padding-y * 1.5) ($nav-link-padding-x / 2) ($nav-link-padding-y / 2);
+  }
+
+  .nav-link > .right,
+  .nav-link > p > .right {
+    top: .5rem;
+    right: .5rem;
+
+    &:nth-child(2) {
+      right: 1.6rem;
+    }
+  }
+}
