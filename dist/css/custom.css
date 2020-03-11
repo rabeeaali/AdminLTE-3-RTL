@@ -48,3 +48,17 @@
     }
 }
 
+@media (max-width: 767.98px) {
+    .main-sidebar, .main-sidebar::before {
+        box-shadow: none !important;
+        margin-right: -250px;
+    }
+
+    .content-wrapper, .content-wrapper::before, .main-footer, .main-footer::before, .main-header, .main-header::before {
+        margin-right: 0;
+    }
+
+    .sidebar-open .main-sidebar, .sidebar-open .main-sidebar::before {
+        margin-right: 0;
+    }
+}
